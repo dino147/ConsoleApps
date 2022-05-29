@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1
+{
+ /*
+  * Cerinta:
+  * Implementati o aplicatie care sa primeasca 2 parametrii la rularea din linia de comanda. Aplicatia va crea un nou proces
+  * ce va rula aceeasi aplicatie. Procesul initial va afisa la consola primul parametru si va crea un director cu numele parametrului,
+  * al doilea process va afisa la consola cel de-al doilea parametru si va crea un director in directorul creat de primul proces.
+  * Rulati aplicatia din linia de comanda cu parametrii respectivi grupa respectiv numele dvs.
+  * 
+  */
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Process[] localProcesesses = Process.GetProcesses();
+            int ok = 0;
+            foreach (Process p in localProcesesses.OrderBy(x => x.ProcessName))
+            {
+                if (p.ProcessName == "ConsoleApp1")
+                {
+                    ok++;
+                }
+            }
+            if (ok == 1)
+            {
+                string a = Console.ReadLine();
+                string b = Console.ReadLine();
+                Console.WriteLine(a);
+                Directory.CreateDirectory(a);
+                string ab = a + " " + b;
+                Process.Start(@"C:\Users\Alex\Desktop\Scoala\anul-3\semestru-2\SO\lab\ConsoleApp1\bin\Debug\ConsoleApp1.exe", ab);
+                Console.ReadLine();
+
+            }
+            else if (ok == 2) // process 2
+            {
+                Console.WriteLine("Process 2");
+                //Console.WriteLine(args.Length);
+                if (args.Length >= 1)
+                {
+                    string a = args[0];
+                    string b = args[1];
+                    string fullPath = string.Format("{0}{1}{2}", Directory.GetCurrentDirectory(), Path.DirectorySeparatorChar, a);
+                    fullPath = Path.Combine(fullPath, b);
+                    //Console.WriteLine(fullPath);
+                    Directory.CreateDirectory(fullPath);
+
+                }
+                    
+            }
+            Console.ReadLine();
+        }
+    }
+}
