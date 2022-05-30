@@ -14,11 +14,12 @@ namespace Cojocaru_Alex_Colocviu
         private static Mutex mut = new Mutex();
         static void Main(string[] args)
         {
+            int K = 8;
             Console.WriteLine("Scrie numele fisierului txt");
             string file = Console.ReadLine();
-            Thread[] childThreads = new Thread[8];
+            Thread[] childThreads = new Thread[K];
             //Thread[] decThreads = new Thread[4];
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < K; i++)
             {
                 if(i % 2 == 1)
                     childThreads[i] = new Thread(incFunction);
@@ -26,8 +27,12 @@ namespace Cojocaru_Alex_Colocviu
                     childThreads[i] = new Thread(decFunction);
 
                 childThreads[i].Start(file);
-                //File.AppendText(args[0], A);
-                //File.AppendAllText(args[0], A.ToString());
+               // if(childThreads[i].)
+            }
+
+            for (int i = 0; i < K; i++)
+            {
+                childThreads[i].Join();
             }
 
             Console.WriteLine("S-a executat threadul principal");
